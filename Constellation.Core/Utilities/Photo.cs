@@ -1,4 +1,4 @@
-namespace Constellation.Core.Models
+namespace Constellation.Core.Utilities
 {
     public class Photo
     {
