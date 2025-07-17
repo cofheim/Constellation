@@ -11,4 +11,8 @@
     <Folder Include="KafkaMessaging\Consumer\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Confluent.Kafka" Version="2.11.0" />
+  </ItemGroup>
+
 </Project>
