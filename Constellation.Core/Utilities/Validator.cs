@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace Constellation.Core.Models
+namespace Constellation.Core.Utilities
 {
     public static class Validator
     {
@@ -16,7 +16,7 @@ namespace Constellation.Core.Models
             int current = 1;
             int max = 1;
 
-            var cleanPassword = password.Select(c => (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') ? c : '\0');
+            var cleanPassword = password.Select(c => c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z' ? c : '\0');
 
             char lastChar = '\0';
             int direction = 0;

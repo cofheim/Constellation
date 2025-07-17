@@ -1,3 +1,5 @@
+using Constellation.Core.Utilities;
+
 namespace Constellation.Core.Models
 {
     public class User
@@ -5,8 +7,7 @@ namespace Constellation.Core.Models
         const int MAX_FIRST_NAME_LENGTH = 25;
         const int MAX_LAST_NAME_LENGTH = 25;
 
-        public User(Guid id,
-            string firstName,
+        public User(string firstName,
             string lastName,
             int age,
             string phoneNumber,
@@ -14,7 +15,6 @@ namespace Constellation.Core.Models
             string passwordHash,
             long? telegramId)
         {
-            Id = id;
             FirstName = firstName;
             LastName = lastName;
             Age = age;
@@ -23,7 +23,7 @@ namespace Constellation.Core.Models
             PasswordHash = passwordHash;
             TelegramId = telegramId;
         }
-        public Guid Id { get; }
+        public Guid Id { get; } = Guid.NewGuid();
         public string FirstName { get; private set; }
         public string LastName { get; private set; }
         public int Age { get; private set; }
@@ -31,10 +31,12 @@ namespace Constellation.Core.Models
         public string Email { get; private set; }
         public string PasswordHash { get; private set; }
         public long? TelegramId { get; private set; } = null;
+        public Photo? Avatar { get; private set; } = null;
+        public DateTime CreatedAt { get; } = DateTime.UtcNow;
+        public DateTime? UpdatedAt { get; private set; }
 
 
-        public (User? User, string Error) Create(Guid id,
-            string firstName,
+        public (User? User, string Error) Create(string firstName,
             string lastName,
             int age,
             string phoneNumber,
@@ -77,7 +79,7 @@ namespace Constellation.Core.Models
                 return (null, error);
             }
 
-            var user = new User(id, firstName, lastName, age, phoneNumber, email, passwordHash, telegramId);
+            var user = new User(firstName, lastName, age, phoneNumber, email, passwordHash, telegramId);
 
             return (user, error);
                 
@@ -121,6 +123,23 @@ namespace Constellation.Core.Models
         public void UpdateTelegramId(long telegramId)
         {
             TelegramId = telegramId;
+        }
+
+        public void UpdateAvatar(Photo photo)
+        {
+            Avatar = photo;
+            UpdatedAt = DateTime.UtcNow;
+        }
+
+        public void RemoveAvatar()
+        {
+            if (Avatar == null)
+            {
+                throw new Exception("Avatar is not set");
+            }
+            
+            Avatar = null;
+            UpdatedAt = DateTime.UtcNow;
         }
     }
 }
